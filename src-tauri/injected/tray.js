@@ -26,7 +26,6 @@
   }
 
   if (window.location.pathname !== '/home/index'){
-    showAppWindow()
     console.log('非邮箱页面，不创建系统托盘')
     window.noTray = true
     return

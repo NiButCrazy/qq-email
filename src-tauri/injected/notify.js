@@ -165,10 +165,12 @@ if (targetNode) {
 }
 const loginHeader = document.querySelector('.login-page-header');
 if (loginHeader){
+  showAppWindow()
   return loginHeader.setAttribute('data-tauri-drag-region', '')
 }
 const accountsHeader = document.querySelector('.accounts-list-page-header');
 if (accountsHeader){
+  showAppWindow()
   return accountsHeader.setAttribute('data-tauri-drag-region', '')
 }
 })();
