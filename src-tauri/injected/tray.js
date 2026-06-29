@@ -7,7 +7,7 @@
 
   const isDark = window.matchMedia('(prefers-color-scheme:dark)').matches;
   const trayID = 'qq-email-app-tray'
-  console.log(window.__TAURI__)
+  // console.log(window.__TAURI__)
   const { menu, tray, app, autostart } = window.__TAURI__
 
   window.appWindow = new window.__TAURI__.window.Window('main')
