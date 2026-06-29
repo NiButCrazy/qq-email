@@ -16,6 +16,7 @@ tauri-plugin-opener = "2"
 tauri-plugin-notification = "2"
 base64 = "0.22"
 qqmail = { path = "./plugins/qqmail-plugin" }
+tauri-plugin-log = "2"
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tauri-plugin-autostart = "2"

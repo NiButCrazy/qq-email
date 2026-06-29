@@ -1,9 +1,7 @@
 use ::tauri::Manager;
-use tauri::{
-    webview::WebviewWindowBuilder,
-};
 use base64::Engine;
-
+use tauri::webview::WebviewWindowBuilder;
+use tauri_plugin_log::{Target, TargetKind};
 
 fn inject_scripts(window: &tauri::WebviewWindow<tauri::Wry>) {
     let script0 = include_str!("../injected/link-handler.js");
@@ -34,10 +32,18 @@ fn inject_scripts(window: &tauri::WebviewWindow<tauri::Wry>) {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(
+            tauri_plugin_log::Builder::new()
+                .level(tauri_plugin_log::log::LevelFilter::Info)
+                .targets([
+                    Target::new(TargetKind::Stdout),
+                    Target::new(TargetKind::LogDir { file_name: None }),
+                ])
+                .build(),
+        )
         .plugin(qqmail::init())
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
-            let window = app.get_webview_window("main")
-            .expect("no main window");
+            let window = app.get_webview_window("main").expect("no main window");
             window.unminimize().expect("恢复失败");
             window.show().expect("显示失败");
             window.set_focus().expect("聚焦失败");
