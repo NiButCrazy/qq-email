@@ -58,11 +58,7 @@ pub fn run() {
             let data_path = app.path().app_data_dir().unwrap();
             // 修复自启动时工作目录错误导致找不到扩展文件的问题
             // 使用 current_exe 而非 current_dir，因为自启动时工作目录可能是 System32
-            let exe_dir = std::env::current_exe()
-                .unwrap()
-                .parent()
-                .unwrap()
-                .to_path_buf();
+            let exe_dir = std::env::current_exe().unwrap().parent().unwrap().to_path_buf();
             std::env::set_current_dir(&exe_dir).ok();
             // 指定加载扩展的根路径
             let ext_path = exe_dir.join("extensions");

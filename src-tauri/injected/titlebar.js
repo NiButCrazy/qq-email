@@ -98,36 +98,25 @@
   const btnMax = document.getElementById('__btn_max');
   btnMax.onclick = () => INVOKE('plugin:window|toggle_maximize');
 
-  // const svgMax = document.getElementById('__svg_max');
-  // const svgRestore = document.getElementById('__svg_restore');
-
   async function updateMaxState() {
     try {
       const maximized = await INVOKE('plugin:window|is_maximized');
-      // svgMax.style.display = maximized ? 'none' : '';
-      // svgRestore.style.display = maximized ? '' : 'none';
       btnMax.title = maximized ? '还原' : '最大化';
     } catch(e) {}
   }
+
   updateMaxState();
   window.addEventListener('resize', updateMaxState);
 
-  // ── 拖拽 ──────────────────────────────────
-  bar.addEventListener('mousedown', function(e) {
-    if (e.target.closest('button')) return;
-    INVOKE('plugin:window|start_dragging');
-  });
-
 
   // ── 主题跟随 ──────────────────────────────
-  function updateTheme() {
-    bar.classList.toggle('dark', window.matchMedia('(prefers-color-scheme:dark)').matches);
+  function updateTheme(e) {
+    bar.classList.toggle('dark', e.matches);
+    window.setTrayIcon(window.EmailMode);
   }
-  updateTheme();
-  window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change', updateTheme);
 
-  // ── 暴露通知 API ──────────────────────────
-  window.__qqmail = {
-    notify: (title, body) => INVOKE('send_notification', { title, body }),
-  };
+  const media = window.matchMedia('(prefers-color-scheme: dark)')
+  media.addEventListener('change', updateTheme);
+  bar.classList.toggle('dark', media.matches);
+
 })();
