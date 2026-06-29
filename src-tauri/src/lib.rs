@@ -1,5 +1,7 @@
 use ::tauri::Manager;
-use tauri::webview::WebviewWindowBuilder;
+use tauri::{
+    webview::WebviewWindowBuilder
+};
 // use tauri::tray::TrayIconBuilder;
 use base64::Engine;
 
@@ -8,6 +10,7 @@ fn inject_titlebar(window: &tauri::WebviewWindow<tauri::Wry>) {
     let script2 = include_str!("../injected/notify.js");
     let script3 = include_str!("../injected/darkreader.js");
     let script4 = include_str!("../injected/tray.js");
+    let script5 = include_str!("../injected/nanoid.js");
 
     // 将通知音频编码为 base64 注入 JS，避免 IPC ACL 限制
     let wav_bytes = include_bytes!("../assets/Windows Notify Calendar.wav");
@@ -18,6 +21,7 @@ fn inject_titlebar(window: &tauri::WebviewWindow<tauri::Wry>) {
     );
 
     let _ = window.eval(&audio_inject);
+    let _ = window.eval(script5);
     let _ = window.eval(script4);
     let _ = window.eval(script3);
     let _ = window.eval(script);
@@ -27,6 +31,7 @@ fn inject_titlebar(window: &tauri::WebviewWindow<tauri::Wry>) {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(qqmail::init())
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
             let window = app.get_webview_window("main")
             .expect("no main window");
@@ -56,7 +61,6 @@ pub fn run() {
 
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![])
         .run(tauri::generate_context!())
         .expect("在运行 Tauri 应用进程时出现了错误");
 }

@@ -16,6 +16,27 @@ const config = {
 
 let hasLoaded = false;
 
+const listen = window.__TAURI__.event.listen;
+const invoke = window.__TAURI__.core.invoke;
+const notifyCallbackMap = {}
+
+// 监听通知回调
+listen('notify-activated', (event) => {
+  notifyCallbackMap[event.payload] && notifyCallbackMap[event.payload]()
+});
+
+// 基础通知
+window.QQ_notification = async ( title, text, callback=()=>{} )=>{
+  const id = nanoid()
+  notifyCallbackMap[id] = callback
+  const result = await invoke('plugin:qqmail|notification', { 
+    title: title,
+    text: text,
+    id: id
+  });
+}
+
+
 
 const numObserver = new MutationObserver((mutations) => {
   mutations.forEach(mutation => {
@@ -110,13 +131,18 @@ const callback = function(mutationsList) {
               const avatarImgSrc = avatarImgElement.src;
               const infoName = infoNameElement.textContent;
               const infoTitle = infoTitleElement.textContent;
-              const notify = new Notification(infoName, { 
-                  body: infoTitle, 
-                  icon: avatarImgSrc,
-                });
-              if (window.__QQMAIL_NOTIFY_SOUND) {
-                new Audio(window.__QQMAIL_NOTIFY_SOUND).play();
-              }
+              // const notify = new Notification(infoName, { 
+              //     body: infoTitle, 
+              //     icon: avatarImgSrc,
+              //   });
+              // if (window.__QQMAIL_NOTIFY_SOUND) {
+              //   new Audio(window.__QQMAIL_NOTIFY_SOUND).play();
+              // }
+              QQ_notification(infoName, infoTitle, ()=>{
+                element.click()
+                showAppWindow()
+              })
+
               window.setTrayIcon('open')
               // 任务栏强调闪烁
               appWindow.requestUserAttention('Critical')

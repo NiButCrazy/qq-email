@@ -1,0 +1,15 @@
+[package]
+name = "qqmail"
+version = "0.1.0"
+edition = "2024"
+links = "qqmail"
+
+[lib]
+crate-type = ["lib"]
+
+[dependencies]
+tauri = { version = "2" }
+tauri-winrt-notification = "0.7.2"
+
+[build-dependencies]
+tauri-plugin = { version = "2", features = ["build"] }
