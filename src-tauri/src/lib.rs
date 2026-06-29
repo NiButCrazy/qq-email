@@ -1,11 +1,12 @@
 use ::tauri::Manager;
 use tauri::{
-    webview::WebviewWindowBuilder
+    webview::WebviewWindowBuilder,
 };
-// use tauri::tray::TrayIconBuilder;
 use base64::Engine;
 
-fn inject_titlebar(window: &tauri::WebviewWindow<tauri::Wry>) {
+
+fn inject_scripts(window: &tauri::WebviewWindow<tauri::Wry>) {
+    let script0 = include_str!("../injected/link-handler.js");
     let script = include_str!("../injected/titlebar.js");
     let script2 = include_str!("../injected/notify.js");
     let script3 = include_str!("../injected/darkreader.js");
@@ -20,6 +21,8 @@ fn inject_titlebar(window: &tauri::WebviewWindow<tauri::Wry>) {
         b64
     );
 
+    // link-handler 应该最先注入，以便它能拦截后续脚本中的 window.open 重写
+    let _ = window.eval(script0);
     let _ = window.eval(&audio_inject);
     let _ = window.eval(script5);
     let _ = window.eval(script4);
@@ -55,7 +58,7 @@ pub fn run() {
                 .browser_extensions_enabled(true)
                 .extensions_path(ext_path)
                 .on_page_load(move |w, _payload| {
-                    inject_titlebar(&w);
+                    inject_scripts(&w);
                 })
                 .build()?;
 

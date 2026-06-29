@@ -1,5 +1,5 @@
 const COMMANDS: &[&str] = &[
-    "notification"
+    "notification",
     ];
 
 fn main() {

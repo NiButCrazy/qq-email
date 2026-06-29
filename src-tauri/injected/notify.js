@@ -6,7 +6,6 @@ window.hasNotify = true;
 
 // 要监听的目标元素
 const targetNode = document.getElementById('mailMainApp');
-const loginHeader = document.querySelector('.login-page-header');
 
 // 配置选项：监听子元素的新增、删除和属性变化
 const config = {
@@ -162,7 +161,14 @@ if (targetNode) {
   
   // 如果需要停止监听
   // observer.disconnect();
-}else if (loginHeader){
-  loginHeader.setAttribute('data-tauri-drag-region', '')
+  return
+}
+const loginHeader = document.querySelector('.login-page-header');
+if (loginHeader){
+  return loginHeader.setAttribute('data-tauri-drag-region', '')
+}
+const accountsHeader = document.querySelector('.accounts-list-page-header');
+if (accountsHeader){
+  return accountsHeader.setAttribute('data-tauri-drag-region', '')
 }
 })();

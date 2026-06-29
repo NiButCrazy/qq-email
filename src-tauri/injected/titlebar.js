@@ -47,7 +47,7 @@
     #__qqmail_titlebar .__btn svg { pointer-events:none; }
     #__qqmail_titlebar .__btn.blur,#__qqmail_titlebar .__btn--close.blur{background:none !important;color:inherit}
     #mailMainApp .frame-header{padding-top:20px;height:80px;}
-    #root .login-page-header{padding-top:20px;}
+    #root .login-page-header,.accounts-list-page-header{padding-top:20px;}
     .login-page-header>.header-left{pointer-events:none;}
   `;
   document.head.appendChild(style);

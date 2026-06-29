@@ -64,6 +64,13 @@
         }
       },
       {
+        id: 'switch',
+        text: '切换账号',
+        action: () => {
+          location.href = '/'
+        }
+      },
+      {
         id: 'quit',
         text: '退出邮箱',
         action: () => {

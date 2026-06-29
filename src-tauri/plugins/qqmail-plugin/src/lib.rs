@@ -1,5 +1,5 @@
-use tauri_winrt_notification::{ Sound, Toast };
 use tauri::{AppHandle, Emitter};
+use tauri_winrt_notification::{Sound, Toast};
 
 #[tauri::command]
 fn notification(app: AppHandle, title: String, text: String, id: String) {
@@ -7,7 +7,7 @@ fn notification(app: AppHandle, title: String, text: String, id: String) {
         .title(&title)
         .text1(&text)
         .sound(Some(Sound::Reminder))
-        .on_activated(move |_|{
+        .on_activated(move |_| {
             app.emit("notify-activated", &id).unwrap();
             Ok(())
         })
