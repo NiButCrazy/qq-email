@@ -307,6 +307,18 @@
           "markdownDescription": "Denies the greet command without any pre-configured scope."
         },
         {
+          "description": "Enables the is_email_client_registered command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-is-email-client-registered",
+          "markdownDescription": "Enables the is_email_client_registered command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the is_email_client_registered command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-is-email-client-registered",
+          "markdownDescription": "Denies the is_email_client_registered command without any pre-configured scope."
+        },
+        {
           "description": "Enables the notification command without any pre-configured scope.",
           "type": "string",
           "const": "allow-notification",
@@ -317,6 +329,18 @@
           "type": "string",
           "const": "deny-notification",
           "markdownDescription": "Denies the notification command without any pre-configured scope."
+        },
+        {
+          "description": "Enables the register_email_client command without any pre-configured scope.",
+          "type": "string",
+          "const": "allow-register-email-client",
+          "markdownDescription": "Enables the register_email_client command without any pre-configured scope."
+        },
+        {
+          "description": "Denies the register_email_client command without any pre-configured scope.",
+          "type": "string",
+          "const": "deny-register-email-client",
+          "markdownDescription": "Denies the register_email_client command without any pre-configured scope."
         }
       ]
     }

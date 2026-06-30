@@ -7,8 +7,9 @@
 
   const isDark = window.matchMedia('(prefers-color-scheme:dark)').matches;
   const trayID = 'qq-email-app-tray'
-  // console.log(window.__TAURI__)
-  const { menu, tray, app, autostart } = window.__TAURI__
+  console.log(window.__TAURI__)
+  const { menu, tray, app, autostart, deepLink, core } = window.__TAURI__
+  const { invoke } = core
 
   window.appWindow = new window.__TAURI__.window.Window('main')
 
@@ -38,7 +39,9 @@
   }
   const isAutostart = await autostart.isEnabled()
 
-  const AppMenu = await menu.Menu.new({
+
+
+  const AppMenuTemplate = {
     items: [
       {
         id: 'write',
@@ -77,10 +80,32 @@
         }
       },
     ],
-  });
+  }
+
+  const hasDeepLink = await deepLink.isRegistered("mailto")
+  const isEmailClientRegistered = await invoke('plugin:qqmail|is_email_client_registered').catch(() => false)
+
+  const DeepLink = {
+    id: 'deep-link',
+    text: '设置为默认邮箱应用',
+    action: async () => {
+      await deepLink.register("mailto")
+      await invoke('plugin:qqmail|register_email_client').catch(e => console.error('注册邮件客户端失败:', e))
+      const result = await deepLink.isRegistered("mailto")
+      if (result) {
+        window.appTray.setMenu((await menu.Menu.new(AppMenuTemplate.items.shift())))
+      }
+    }
+  }
+
+  if (!hasDeepLink || !isEmailClientRegistered) {
+    AppMenuTemplate.items.unshift(DeepLink)
+  }
+
+  const AppMenu = await menu.Menu.new(AppMenuTemplate);
 
   const initalIcon = 'assets/tray-loading' + (isDark ? '-dark':'') + '.png'
-  const appTray = await tray.TrayIcon.new({ 
+  window.appTray = await tray.TrayIcon.new({ 
     tooltip: '加载邮箱中...',
     icon: initalIcon,
     menu: AppMenu,

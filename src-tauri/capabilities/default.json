@@ -6,6 +6,7 @@
   "remote": {"urls": ["https://wx.mail.qq.com/**"]},
   "permissions": [
     "core:default",
+    "core:event:default",
     "core:window:default",
     "core:window:allow-show",
     "core:window:allow-unminimize",
@@ -26,7 +27,14 @@
     "autostart:allow-enable",
     "autostart:allow-disable",
     "autostart:allow-is-enabled",
+    "clipboard-manager:allow-write-text",
     "qqmail:allow-notification",
-    "log:default"
+    "qqmail:allow-register-email-client",
+    "qqmail:allow-is-email-client-registered",
+    "log:default",
+    "deep-link:allow-is-registered",
+    "deep-link:allow-get-current",
+    "deep-link:allow-register",
+    "deep-link:default"
   ]
 }

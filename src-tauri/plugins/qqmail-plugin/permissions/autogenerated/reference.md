@@ -36,6 +36,32 @@ Denies the greet command without any pre-configured scope.
 <tr>
 <td>
 
+`qqmail:allow-is-email-client-registered`
+
+</td>
+<td>
+
+Enables the is_email_client_registered command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`qqmail:deny-is-email-client-registered`
+
+</td>
+<td>
+
+Denies the is_email_client_registered command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
 `qqmail:allow-notification`
 
 </td>
@@ -55,6 +81,32 @@ Enables the notification command without any pre-configured scope.
 <td>
 
 Denies the notification command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`qqmail:allow-register-email-client`
+
+</td>
+<td>
+
+Enables the register_email_client command without any pre-configured scope.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+`qqmail:deny-register-email-client`
+
+</td>
+<td>
+
+Denies the register_email_client command without any pre-configured scope.
 
 </td>
 </tr>

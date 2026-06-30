@@ -12,5 +12,8 @@ tauri = { version = "2" }
 tauri-winrt-notification = "0.7.2"
 url = "2"
 
+[target.'cfg(windows)'.dependencies]
+winreg = "0.52"
+
 [build-dependencies]
 tauri-plugin = { version = "2", features = ["build"] }

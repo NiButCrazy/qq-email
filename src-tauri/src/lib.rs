@@ -1,6 +1,7 @@
 use ::tauri::Manager;
 use base64::Engine;
 use tauri::webview::WebviewWindowBuilder;
+use tauri_plugin_deep_link::DeepLinkExt;
 use tauri_plugin_log::{Target, TargetKind};
 
 fn inject_scripts(window: &tauri::WebviewWindow<tauri::Wry>) {
@@ -10,6 +11,7 @@ fn inject_scripts(window: &tauri::WebviewWindow<tauri::Wry>) {
     let script3 = include_str!("../injected/darkreader.js");
     let script4 = include_str!("../injected/tray.js");
     let script5 = include_str!("../injected/nanoid.js");
+    let script6 = include_str!("../injected/deeplink.js");
 
     // 将通知音频编码为 base64 注入 JS，避免 IPC ACL 限制
     let wav_bytes = include_bytes!("../assets/Windows Notify Calendar.wav");
@@ -27,11 +29,14 @@ fn inject_scripts(window: &tauri::WebviewWindow<tauri::Wry>) {
     let _ = window.eval(script3);
     let _ = window.eval(script);
     let _ = window.eval(script2);
+    let _ = window.eval(script6);
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_clipboard_manager::init())
+        .plugin(tauri_plugin_deep_link::init())
         .plugin(
             tauri_plugin_log::Builder::new()
                 .level(tauri_plugin_log::log::LevelFilter::Info)
@@ -58,7 +63,11 @@ pub fn run() {
             let data_path = app.path().app_data_dir().unwrap();
             // 修复自启动时工作目录错误导致找不到扩展文件的问题
             // 使用 current_exe 而非 current_dir，因为自启动时工作目录可能是 System32
-            let exe_dir = std::env::current_exe().unwrap().parent().unwrap().to_path_buf();
+            let exe_dir = std::env::current_exe()
+                .unwrap()
+                .parent()
+                .unwrap()
+                .to_path_buf();
             std::env::set_current_dir(&exe_dir).ok();
             // 指定加载扩展的根路径
             let ext_path = exe_dir.join("extensions");
@@ -71,6 +80,21 @@ pub fn run() {
                     inject_scripts(&w);
                 })
                 .build()?;
+
+            // 启动时自动注册为默认邮件客户端（后台执行，不阻塞启动）
+            let handle = app.handle().clone();
+            tauri::async_runtime::spawn(async move {
+                // 注册 mailto:// 协议关联（tauri-plugin-deep-link）
+                if let Err(e) = handle.deep_link().register_all() {
+                    eprintln!("注册 deep-link mailto 协议失败: {}", e);
+                }
+                // 写入 Windows 邮件客户端注册表项
+                if let Err(e) = qqmail::email_client_registry::register_email_client() {
+                    eprintln!("自动注册邮件客户端失败: {}", e);
+                } else {
+                    // println!("邮件客户端注册表已写入");
+                }
+            });
 
             Ok(())
         })

@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-register-email-client"
+description = "Enables the register_email_client command without any pre-configured scope."
+commands.allow = ["register_email_client"]
+
+[[permission]]
+identifier = "deny-register-email-client"
+description = "Denies the register_email_client command without any pre-configured scope."
+commands.deny = ["register_email_client"]
