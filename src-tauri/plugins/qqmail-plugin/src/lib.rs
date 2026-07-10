@@ -5,7 +5,7 @@ use tauri_winrt_notification::{Sound, Toast};
 
 #[tauri::command]
 fn notification(app: AppHandle, title: String, text: String, id: String) {
-    Toast::new(Toast::POWERSHELL_APP_ID)
+    Toast::new("com.qq-mail.desktop")
         .title(&title)
         .text1(&text)
         .sound(Some(Sound::Reminder))
