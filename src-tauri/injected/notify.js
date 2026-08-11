@@ -5,7 +5,7 @@ if (window.hasNotify) return;
 window.hasNotify = true;
 
 // 要监听的目标元素
-const targetNode = document.getElementById('mailMainApp');
+const targetNode = document.getElementById('root');
 
 // 配置选项：监听子元素的新增、删除和属性变化
 const config = {
@@ -162,7 +162,10 @@ if (targetNode) {
   // 如果需要停止监听
   // observer.disconnect();
   return
+}else {
+  console.log('未找到邮箱挂载节点');
 }
+
 const loginHeader = document.querySelector('.login-page-header');
 if (loginHeader){
   showAppWindow()
