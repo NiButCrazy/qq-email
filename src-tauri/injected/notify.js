@@ -5,7 +5,7 @@ if (window.hasNotify) return;
 window.hasNotify = true;
 
 // 要监听的目标元素
-const targetNode = document.getElementById('root');
+const targetNode = document.querySelector('.xmail-page-root');
 
 // 配置选项：监听子元素的新增、删除和属性变化
 const config = {
