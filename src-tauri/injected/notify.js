@@ -121,12 +121,12 @@ const callback = function(mutationsList) {
             }
           }
           // 分别检查是否包含两个类
-          if (element.classList.contains('xmail-page-notify-card') && 
-              element.classList.contains('page-notify-card-show')) {
+          if (element.classList.contains('xmail-page-new-mail-card') && 
+              element.classList.contains('new-mail-card-show')) {
               console.log('邮箱通知元素:', element);
               const avatarImgElement = element.querySelector('.ui-avatar-img');
-              const infoNameElement = element.querySelector('.page-notify-info-name');
-              const infoTitleElement = element.querySelector('.page-notify-info-title');
+              const infoNameElement = element.querySelector('.new-mail-card-info-name');
+              const infoTitleElement = element.querySelector('.new-mail-card-info-title');
               const avatarImgSrc = avatarImgElement.src;
               const infoName = infoNameElement.textContent;
               const infoTitle = infoTitleElement.textContent;
