@@ -27,6 +27,7 @@
     "autostart:allow-enable",
     "autostart:allow-disable",
     "autostart:allow-is-enabled",
+    "store:default",
     "clipboard-manager:allow-write-text",
     "qqmail:allow-notification",
     "qqmail:allow-register-email-client",
