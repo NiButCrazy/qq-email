@@ -27,7 +27,7 @@
     function isMailQQ(url) {
         try {
             var u = new URL(url, window.location.origin);
-            return u.hostname === 'wx.mail.qq.com';
+            return (u.hostname === 'wx.mail.qq.com' && !u.pathname.startsWith('/xmspamcheck/xmsafejump'));
         } catch (e) {
             return false;
         }
@@ -42,10 +42,13 @@
 
         if (url.startsWith('http://') || url.startsWith('https://')) {
             if (isMailQQ(url)) {
-                window.location.href = url;
+                console.log('[QQ邮箱] 拦截外部链接:', url);
+                // window.location.href = url;
                 return window;
             }
-            openInBrowser(url);
+            const u = new URL(url, window.location.origin);
+            const targetURL = u.searchParams.get('url');
+            openInBrowser(targetURL)
             return null;
         }
 
